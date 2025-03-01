@@ -1,0 +1,20 @@
+---
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Copy application files
+      copy:
+        src: my-flask-app/
+        dest: /home/ubuntu/my-flask-app
+
+    - name: Build Docker image
+      command: docker build -t flask-app /home/ubuntu/my-flask-app
+
+    - name: Run Docker container
+      command: docker run -d -p 5000:5000 flask-app
+
+    # Example to pull a Docker image (if needed)
+    # - name: Pull Docker image (Example: nginx)
+    #   docker_image:
+    #     name: nginx
+    #     source: pull
