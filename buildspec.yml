@@ -1,26 +1,19 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
     commands:
-      - echo "Logging into AWS ECR"
+      - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 888577039597.dkr.ecr.eu-west-1.amazonaws.com
-
   build:
     commands:
-      - echo "Building the Docker image"
-      - docker build -t network .
-      - docker tag network:latest 888577039597.dkr.ecr.eu-west-1.amazonaws.com/network:latest
-
+      - echo Building the Docker image...
+      - docker build -t my-app .
+      - docker tag my-app:latest 888577039597.dkr.ecr.eu-west-1.amazonaws.com/my-app-repo:latest
   post_build:
     commands:
-      - echo "Pushing Docker image to ECR"
-      - docker push 888577039597.dkr.ecr.eu-west-1.amazonaws.com/network:latest
-      - echo "Saving build artifacts"
-      - mkdir -p NetworkPipeline/BuildArtif
-      - echo "Build successful" > NetworkPipeline/BuildArtif/build_info.txt
-
+      - echo Pushing the Docker image to ECR...
+      - docker push 888577039597.dkr.ecr.eu-west-1.amazonaws.com/my-app-repo:latest
 artifacts:
   files:
-    - "NetworkPipeline/BuildArtif/"
-  discard-paths: no
+    - '**/*'
