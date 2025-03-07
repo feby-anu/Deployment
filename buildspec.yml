@@ -3,14 +3,15 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      # Use the updated AWS CLI v2 command for ECR login
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
+      # Replace <aws_account_id> with your actual AWS account ID (850995537373)
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 850995537373.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
       - echo Building the Docker image...
       - docker build -t my-repository .
-      - docker tag my-repository:latest <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest
+      - docker tag my-repository:latest 850995537373.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
-      - docker push <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest
+      - docker push 850995537373.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest
+
