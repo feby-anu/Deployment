@@ -4,23 +4,23 @@ phases:
   pre_build:
     commands:
       - echo "Logging into AWS ECR"
-      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 850995537373.dkr.ecr.eu-west-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 850995537373.dkr.ecr.us-east-1.amazonaws.com
 
   build:
     commands:
       - echo "Building the Docker image"
       - docker build -t network .
-      - docker tag network:latest 850995537373.dkr.ecr.eu-west-1.amazonaws.com/network:latest
+      - docker tag network:latest 850995537373.dkr.ecr.us-east-1.amazonaws.com/deploypipeline:latest
 
   post_build:
     commands:
       - echo "Pushing Docker image to ECR"
-      - docker push 850995537373.dkr.ecr.eu-west-1.amazonaws.com/network:latest
+      - docker push 850995537373.dkr.ecr.us-east-1.amazonaws.com/deploypipeline:latest
       - echo "Saving build artifacts"
-      - mkdir -p NetworkPipeline/BuildArtif
-      - echo "Build successful" > NetworkPipeline/BuildArtif/build_info.txt
+      - mkdir -p mypipeline/BuildArtif
+      - echo "Build successful" > mypipeline/BuildArtif/build_info.txt
 
 artifacts:
   files:
-    - "NetworkPipeline/BuildArtif/"
+    - "mypipeline/BuildArtif/"
   discard-paths: no
