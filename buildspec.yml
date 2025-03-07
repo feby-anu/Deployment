@@ -3,8 +3,9 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      # Replace <aws_account_id> with your actual AWS account ID (850995537373)
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 850995537373.dkr.ecr.us-east-1.amazonaws.com
+      - echo Logging in to Docker Hub...
+      - docker login --username <your_docker_username> --password <your_docker_password>
   build:
     commands:
       - echo Building the Docker image...
@@ -14,4 +15,3 @@ phases:
     commands:
       - echo Pushing the Docker image to ECR...
       - docker push 850995537373.dkr.ecr.us-east-1.amazonaws.com/my-repository:latest
-
